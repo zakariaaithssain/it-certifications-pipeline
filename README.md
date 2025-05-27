@@ -1,6 +1,6 @@
 # IT Certifications Pipeline
 
-This project scrapes, cleans, and analyzes and applies ml to metadata of IT certifications from providers: AWS, Microsoft, and CompTIA.
+This project scrapes, cleans, analyzes, and applies ml to metadata of IT certifications from providers: AWS, Microsoft, and CompTIA.
 
 ## 📌 Features
 
