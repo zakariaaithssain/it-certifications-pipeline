@@ -25,7 +25,7 @@ predicted_level = level_predictor.predict(X=level_input)
 data.loc[data['Level'] == 'unknown', 'Level'] = predicted_level
 
 #########################################Domain Prediction####################################################
-print('Predicting Missing Domains with GBC...')
+print('Predicting Missing Domains with DTC...')
 domain_training_data = pd.get_dummies(data=useful_columns, columns=['Provider','Level']).map(lambda domain: 'business apps'
                                                                     if domain=='it/business'
                                                                     else ('data & other'if domain in ['devops', 'data', 'security']
