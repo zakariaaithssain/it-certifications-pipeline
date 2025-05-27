@@ -1,2 +1,0 @@
-Feature Selection is the process of identifying and keeping only the most relevant columns 
-(features) in your dataset for a specific task, like classification, clustering, or regression.
