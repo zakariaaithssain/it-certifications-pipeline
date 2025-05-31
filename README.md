@@ -16,4 +16,4 @@ This project scrapes, cleans and analyzes metadata of IT certifications from pro
 - `cleaning/` -Cleaners 
 - `analysis/` - EDA and visualizations
 - `ml/` - machine learning related data processing
-- a Streamlit UI interface
+- a Streamlit UI
