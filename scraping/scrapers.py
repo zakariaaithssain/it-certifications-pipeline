@@ -31,6 +31,7 @@ class BaseScraper:
 
     def save_to_json(self, filename):
         if self.data is not None:
+            print(filename)
             self.data.to_json(filename, orient = 'records', indent = 2) #records saves each row as a dictionary.
 
     def get_data(self):

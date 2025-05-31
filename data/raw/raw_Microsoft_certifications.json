@@ -1,5 +1,70 @@
 [
   {
+    "Certification":"GitHub Actions",
+    "URL":"https:\/\/learn.microsoft.com\/en-us\/credentials\/certifications\/github-actions\/",
+    "Exam Code":null,
+    "Domain":"GitHub",
+    "Targeted Role":"Administrator",
+    "Level":"Intermediate",
+    "Description":"Certify your proficiency in automating workflows and accelerating development with GitHub Actions. Test your skills in streamlining workflows, automating tasks, and optimizing software pipelines, including CI\/CD\u2014all within customizable workflows. Once achieved, the certification will be valid for two years.",
+    "Languages":"English, Spanish, Portuguese (Brazil), Korean, Japanese",
+    "Requirements":null,
+    "Price":"$99 USD*",
+    "Exam Duration":"100 minutes"
+  },
+  {
+    "Certification":"GitHub Administration",
+    "URL":"https:\/\/learn.microsoft.com\/en-us\/credentials\/certifications\/github-administration\/",
+    "Exam Code":null,
+    "Domain":"GitHub",
+    "Targeted Role":"Administrator",
+    "Level":"Intermediate",
+    "Description":"Certify your ability to optimize and manage a healthy GitHub environment with the GitHub Admin exam. Highlight your expertise in repository management, workflow optimization, and efficient collaboration to support successful projects on GitHub. Once achieved, the certification will be valid for two years.",
+    "Languages":"English",
+    "Requirements":null,
+    "Price":"$99 USD*",
+    "Exam Duration":"100 minutes"
+  },
+  {
+    "Certification":"GitHub Advanced Security",
+    "URL":"https:\/\/learn.microsoft.com\/en-us\/credentials\/certifications\/github-advanced-security\/",
+    "Exam Code":null,
+    "Domain":"GitHub",
+    "Targeted Role":"Administrator",
+    "Level":"Intermediate",
+    "Description":"Highlight your code security knowledge with the GitHub Advanced Security certification. Validate your expertise in vulnerability identification, workflow security, and robust security implementation\u2014elevating software integrity standards. Once achieved, the certification will be valid for two years.",
+    "Languages":"English, Spanish, Portuguese (Brazil), Korean, Japanese",
+    "Requirements":null,
+    "Price":"$99 USD*",
+    "Exam Duration":"100 minutes"
+  },
+  {
+    "Certification":"GitHub Copilot",
+    "URL":"https:\/\/learn.microsoft.com\/en-us\/credentials\/certifications\/github-copilot\/",
+    "Exam Code":null,
+    "Domain":"GitHub",
+    "Targeted Role":"App Maker",
+    "Level":"Intermediate",
+    "Description":"This exam is designed for individuals in the field of software development who are proficient in using GitHub, including software developers, administrators, and project managers. This certification is intended for individuals who have a foundational understanding of GitHub Copilot as a product and its available features, along with hands-on experience in optimizing software development workflows using GitHub Copilot. Once achieved, the certification will be valid for two years.",
+    "Languages":"English, Spanish, Portuguese (Brazil), Korean, Japanese",
+    "Requirements":null,
+    "Price":"$99 USD*",
+    "Exam Duration":"100 minutes"
+  },
+  {
+    "Certification":"GitHub Foundations",
+    "URL":"https:\/\/learn.microsoft.com\/en-us\/credentials\/certifications\/github-foundations\/",
+    "Exam Code":null,
+    "Domain":"GitHub",
+    "Targeted Role":"Administrator",
+    "Level":"Beginner",
+    "Description":"Highlight your understanding of the foundational topics and concepts of collaborating, contributing, and working on GitHub. This exam covers collaboration, GitHub products, Git basics, and working within GitHub repositories. Once achieved, the certification will be valid for two years.",
+    "Languages":"English, Spanish, Portuguese (Brazil), Korean, Japanese",
+    "Requirements":null,
+    "Price":"$99 USD*",
+    "Exam Duration":"100 minutes"
+  },
+  {
     "Certification":"Microsoft 365 Certified: Administrator Expert",
     "URL":"https:\/\/learn.microsoft.com\/en-us\/credentials\/certifications\/m365-administrator-expert\/",
     "Exam Code":"MS-102",
@@ -228,9 +293,9 @@
     "Targeted Role":"Solution Architect",
     "Level":"Advanced",
     "Description":"This browser is no longer supported.",
-    "Languages":"\nEnglish\nJapanese\nChinese (Simplified)\nKorean\nGerman\nFrench\nSpanish\nPortuguese (Brazil)\nChinese (Traditional)\nItalian\n",
+    "Languages":"\n\n\t\t\ten\n\t\t\n\n\t\t\tja\n\t\t\n\n\t\t\tzh-cn\n\t\t\n\n\t\t\tko\n\t\t\n\n\t\t\tde\n\t\t\n\n\t\t\tfr\n\t\t\n\n\t\t\tes\n\t\t\n\n\t\t\tpt-br\n\t\t\n\n\t\t\tzh-tw\n\t\t\n\n\t\t\tit\n\t\t\n",
     "Requirements":"",
-    "Price":"$165 USD*",
+    "Price":"",
     "Exam Duration":null
   },
   {
@@ -319,7 +384,7 @@
     "Targeted Role":"Business Analyst",
     "Level":"Intermediate",
     "Description":"As a candidate for this certification, you're a Microsoft Dynamics 365 customer experience analyst who has:",
-    "Languages":"English",
+    "Languages":"English, Japanese, Chinese (Simplified), German, French, Spanish, Portuguese (Brazil)",
     "Requirements":"\nConfigure Dynamics 365 Sales standard and premium features.\n\nImplement collaboration features.\n\nConfigure the security model.\n\nPerform Dynamics 365 Sales customizations.\n\nExtend Dynamics 365 Sales with Microsoft Power Platform.\n\nDeploy the Dynamics 365 App for Outlook.\n\nSet up journeys to support sales-related processes using Dynamics 365 Customer Insights - Journeys.\n\nCreate Dynamics 365 Customer Insights - Data unified profiles from different data sources.\n\n",
     "Price":"$165 USD*",
     "Exam Duration":"100 minutes"
@@ -462,7 +527,7 @@
     "Targeted Role":"Data Engineer",
     "Level":"Intermediate",
     "Description":"As a candidate for this exam, you should have subject matter expertise with data loading patterns, data architectures, and orchestration processes. Your responsibilities for this role include:",
-    "Languages":"English",
+    "Languages":"English, Japanese, Chinese (Simplified), German, French, Spanish, Portuguese (Brazil)",
     "Requirements":null,
     "Price":"$165 USD*",
     "Exam Duration":"100 minutes"
@@ -579,9 +644,9 @@
     "Targeted Role":"Developer",
     "Level":"Advanced",
     "Description":"This browser is no longer supported.",
-    "Languages":"\n\n\t\t\ten\n\t\t\n\n\t\t\tfr\n\t\t\n\n\t\t\tde\n\t\t\n\n\t\t\tja\n\t\t\n\n\t\t\tpt-br\n\t\t\n\n\t\t\tes\n\t\t\n\n\t\t\tzh-cn\n\t\t\n",
+    "Languages":"\nEnglish\nFrench\nGerman\nJapanese\nPortuguese (Brazil)\nSpanish\nChinese (Simplified)\n",
     "Requirements":"",
-    "Price":"",
+    "Price":"$165 USD*",
     "Exam Duration":null
   },
   {
