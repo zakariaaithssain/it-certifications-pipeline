@@ -83,6 +83,7 @@ if st.session_state.get('predict', False):
         progress = st.progress(0)
         waiting_text = st.text('Predicting might take a while, please be patient!')
         run_predicting(state = state, progress= progress)
+        waiting_text.empty()
         st.session_state.show_predicted_data = True
 
 # Show post-predictions data UI if scraping has been done
@@ -95,11 +96,11 @@ if st.session_state.get('show_predicted_data', False):
             st.write(df)
             st.session_state.eda = True
         except Exception as e:
-            st.error(f"Failed to load post-predictions data: {e}")
+            st.error(f"Failed to load final data: {e}")
 
 # Show raw data UI if scraping has been done
 if st.session_state.get('eda', False):
-    eda_button = st.button("Explore ")
+    eda_button = st.button("Explore")
     st.session_state.eda_options = True
 
 if st.session_state.get('eda_options', False):
@@ -113,32 +114,23 @@ if st.session_state.get('eda_options', False):
                'Duration boxplot (min)',
                'Certifications per Domain'
                ]
-    select_button = st.selectbox(label= 'Select plots type:', options=options)
-    col1, col2 = st.columns(spec=2, gap='large')
-    fig1, axe1 = plt.subplots()
-    fig2, axe2 = plt.subplots()
-    pre = pd.read_csv(r'C:\Users\zakar\OneDrive\Bureau\PFA\it_certifications_project\data\pre_predictions_data.csv')
+    select_button = st.selectbox(label= 'Select plot type:', options=options)
+    fig, axe = plt.subplots()
     post = pd.read_csv(r'C:\Users\zakar\OneDrive\Bureau\PFA\it_certifications_project\data\post_predictions_data.csv')
-
-    pre_eda, post_eda = EDA(pre), EDA(post)
+    post_eda = EDA(post)
     plot_functions = {
-        'Certifications per Level and Provider': (
-        pre_eda.nbre_certification_per_lvl_and_provider, post_eda.nbre_certification_per_lvl_and_provider),
-        'Avg Cost per Level and Provider': (
-        pre_eda.avg_cost_per_lvl_and_provider, post_eda.avg_cost_per_lvl_and_provider),
-        'Avg Duration per Level and Provider': (
-        pre_eda.avg_duration_per_lvl_and_provider, post_eda.avg_duration_per_lvl_and_provider),
-        'Top Five Languages': (pre_eda.top_five_languages, post_eda.top_five_languages),
-        'Cost distribution (USD)': (pre_eda.cost_distribution, post_eda.cost_distribution),
-        'Duration distribution (min)': (pre_eda.duration_distribution, post_eda.duration_distribution),
-        'Cost boxplot (USD)': (pre_eda.cost_boxplot, post_eda.cost_boxplot),
-        'Duration boxplot (min)': (pre_eda.cost_boxplot, post_eda.cost_boxplot),
-        'Certifications per Domain': (pre_eda.nbre_certification_per_domain, post_eda.nbre_certification_per_domain)
+        'Certifications per Level and Provider':
+        post_eda.nbre_certification_per_lvl_and_provider,
+        'Avg Cost per Level and Provider': post_eda.avg_cost_per_lvl_and_provider,
+        'Avg Duration per Level and Provider': post_eda.avg_duration_per_lvl_and_provider,
+        'Top Five Languages': post_eda.top_five_languages,
+        'Cost distribution (USD)': post_eda.cost_distribution,
+        'Duration distribution (min)': post_eda.duration_distribution,
+        'Cost boxplot (USD)': post_eda.cost_boxplot,
+        'Duration boxplot (min)': post_eda.cost_boxplot,
+        'Certifications per Domain': post_eda.nbre_certification_per_domain
     }
-    col1.text("Pre-predictions:")
-    plot_functions[select_button][0](axe=axe1, st=True, st_col=col1)
-    col2.text("Post-predictions:")
-    plot_functions[select_button][1](axe=axe2, st=True, st_col=col2)
+    plot_functions[select_button](axe=axe, st=True)
 
 
 

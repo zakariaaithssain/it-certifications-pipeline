@@ -18,19 +18,19 @@ class MissingColumnsPredictor:
 
 
 
-    def get_optimal_features(self, progressor): #st related argument
+    def get_optimal_features(self, progressor = None): #st related argument
         directions = ['forward', 'backward']
         step = 0
         total_steps = (len(self.X.columns) - 2) * len(directions)
         for n_features in tqdm(range(2, len(self.X.columns))):
-            progressor.progress(step / total_steps)
+            if progressor is not None: progressor.progress(step / total_steps)
             for direction in directions:
                 selector = SequentialFeatureSelector(estimator= self.model, n_features_to_select=n_features, direction=direction, cv = self.cv)
                 selector.fit(self.X, self.y)
                 selected_features = self.X[self.X.columns[selector.get_support()]]
                 score = cross_val_score(estimator=self.model, cv=self.cv, X= selected_features, y=self.y).mean()
                 step+= 1
-                progressor.progress(step / total_steps)
+                if progressor is not None: progressor.progress(step / total_steps)
                 if score > self.best_score:
                     self.best_score = score
                     self._selected_features = selected_features

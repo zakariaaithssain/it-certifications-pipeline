@@ -4,14 +4,18 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeClassifier
 import pandas as pd
 
+df = pd.read_csv(r"C:\Users\zakar\OneDrive\Bureau\PFA\it_certifications_project\data\post_predictions_data.csv")
+print(df.describe())
+print(df.info())
+print(df.columns)
 #we should predict the missing domains and levels first and save them to the dataframe, before predicting the cost and duration.
-def run_predicting(state, progress): #those are st related arguments.
+def run_predicting(state = None, progress = None): #those are st related arguments.
     try:
-        data = pd.read_csv(r'C:\Users\zakar\OneDrive\Bureau\PFA\it_certifications_project\data/pre_predictions_data.csv')
+        data = pd.read_csv(r'C:\Users\zakar\OneDrive\Bureau\PFA\it_certifications_project\data\pre_predictions_data.csv')
         useful_columns = data.loc[: , ['Provider', 'Domain', 'Level', 'Cost (USD)', 'Exam Duration (min)']]
         #########################################Level Prediction####################################################
         print('Predicting Missing Levels with DTC...')
-        state.text("Predicting missing levels using DTC...")
+        if state is not None: state.text("Predicting missing levels using DTC...")
         level_training_data = pd.get_dummies(data=useful_columns, columns=['Provider','Domain'])[(data['Cost (USD)'] > 0)
                                                                                                  & (data['Exam Duration (min)'] > 0)
                                                                                                  &(data['Domain'] != 'unknown')
@@ -27,7 +31,7 @@ def run_predicting(state, progress): #those are st related arguments.
 
         #########################################Domain Prediction####################################################
         print('Predicting Missing Domains with DTC...')
-        state.text("Predicting missing domains using DTC...")
+        if state is not None: state.text("Predicting missing domains using DTC...")
         domain_training_data = pd.get_dummies(data=useful_columns, columns=['Provider','Level']).map(lambda domain: 'business apps'
                                                                             if domain=='it/business'
                                                                             else ('data & other'if domain in ['devops', 'data', 'security']
@@ -48,7 +52,7 @@ def run_predicting(state, progress): #those are st related arguments.
         #########################################Cost Prediction####################################################
         training_data = pd.get_dummies(data=useful_columns, columns=['Provider', 'Domain', 'Level'])[(data['Cost (USD)'] > 0) & (data['Exam Duration (min)'] > 0)]
         print('Predicting Missing Costs with DTR...')
-        state.text("Predicting missing costs with DTR...")
+        if state is not None: state.text("Predicting missing costs with DTR...")
         cost_model = DecisionTreeRegressor(random_state=37)
         cost_predictor = MissingColumnsPredictor(name='Cost (USD)', model=cost_model, training_data=training_data, n_splits=5)
         cost_features = cost_predictor.get_optimal_features(progressor=progress)
@@ -60,7 +64,7 @@ def run_predicting(state, progress): #those are st related arguments.
 
         #####################################Duration Prediction#################################################
         print('Predicting Missing Durations with RFR...')
-        state.text("Predicting missing durations with RFR...")
+        if state is not None: state.text("Predicting missing durations with RFR...")
         duration_model = RandomForestRegressor(random_state=37)
         duration_predictor = MissingColumnsPredictor(name='Exam Duration (min)', model=duration_model, training_data=training_data, n_splits=5)
         duration_features = duration_predictor.get_optimal_features(progressor=progress)
@@ -72,6 +76,6 @@ def run_predicting(state, progress): #those are st related arguments.
 
         #this is the final data, at least with the provider, domain, level, cost, and duration with no missing values.
         data.to_csv(r'C:\Users\zakar\OneDrive\Bureau\PFA\it_certifications_project\data/post_predictions_data.csv', index= False)
-        state.success("Missing values predicted successfully!")
+        if state is not None: state.success("Missing values predicted successfully!")
     except Exception as e:
-        state.error(f"An error has occured while predicting: {e}. Please try again!")
+        if state is not None: state.error(f"An error has occured while predicting: {e}. Please try again!")
