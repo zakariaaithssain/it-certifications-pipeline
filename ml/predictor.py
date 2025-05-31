@@ -18,7 +18,7 @@ class MissingColumnsPredictor:
 
 
 
-    def get_optimal_features(self, progressor = None): #st related argument
+    def get_optimal_features(self, progressor = None): #streamlit interface related argument
         directions = ['forward', 'backward']
         step = 0
         total_steps = (len(self.X.columns) - 2) * len(directions)

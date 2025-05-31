@@ -7,7 +7,7 @@ from ml.run_predicting import run_predicting
 from analysis.exploratory_data_analysis import EDA
 import matplotlib.pyplot as plt
 
-# Initialize session state variables if not present
+
 if 'show_raw_data' not in st.session_state: st.session_state.show_raw_data = False
 if 'clean_raw_data' not in st.session_state: st.session_state.clean_raw_data = False
 if 'show_clean_data' not in st.session_state: st.session_state.show_clean_data = False
@@ -36,7 +36,6 @@ if scraping_button:
     state.empty()
     waiting_text.empty()
 
-# Show raw data UI if scraping has been done
 if st.session_state.get('show_raw_data', False):
     show_raw_button = st.button("Show Scraped Data")
     if show_raw_button:
@@ -51,7 +50,6 @@ if st.session_state.get('show_raw_data', False):
                 st.error(f"Failed to load data for {raw_file}: {e}")
 
 
-# Clean raw data UI if scraping has been done
 if st.session_state.get('clean_raw_data', False):
     st.title("Clean the metadata")
     clean_raw_button = st.button(" Clean & Concatenate Scraped Data")
@@ -62,7 +60,7 @@ if st.session_state.get('clean_raw_data', False):
             st.success("Metadata cleaned successfully!")
             st.session_state.show_clean_data = True
 
-# Show raw data UI if scraping has been done
+
 if st.session_state.get('show_clean_data', False):
     show_clean_button = st.button("Show Cleaned Data")
     if show_clean_button:
@@ -74,7 +72,6 @@ if st.session_state.get('show_clean_data', False):
         except Exception as e:
             st.error(f"Failed to load cleaned data: {e}")
 
-# predict missing data UI if scraping has been done
 if st.session_state.get('predict', False):
     st.title("Predict the missing values")
     predict_button = st.button(" Predict Missing Values")
@@ -86,7 +83,6 @@ if st.session_state.get('predict', False):
         waiting_text.empty()
         st.session_state.show_predicted_data = True
 
-# Show post-predictions data UI if scraping has been done
 if st.session_state.get('show_predicted_data', False):
     show_predicted_button = st.button("Show Final Data")
     if show_predicted_button:
@@ -98,7 +94,6 @@ if st.session_state.get('show_predicted_data', False):
         except Exception as e:
             st.error(f"Failed to load final data: {e}")
 
-# Show raw data UI if scraping has been done
 if st.session_state.get('eda', False):
     eda_button = st.button("Explore")
     st.session_state.eda_options = True
