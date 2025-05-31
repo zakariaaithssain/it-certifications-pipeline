@@ -1,14 +1,16 @@
 from scraping.scrapers import CompTIA, AWS, Microsoft
-def run_scraping(state, progress):  #those are st interface related arguments
+def run_scraping(state = None, progress = None):  #those are streamlit interface related arguments
     try:
         sites = [CompTIA(), AWS(), Microsoft()]
         for i, site in enumerate(sites):
-            state.text(f"Scraping {site.name}...")
+            if state is not None: state.text(f"Scraping {site.name}...")
             print(f'Scraping {site.name}...')
             site.scraper()
             site.save_to_json(fr'C:\Users\zakar\OneDrive\Bureau\PFA\raw_{site.name}_certifications.json')
-            progress.progress((i+1)/3)
+            if progress is not None: progress.progress((i+1)/3)
         else:
             print('Scraping Finished Successfully')
-            return True
-    except: return False
+            if state is not None: return True
+    except Exception as e:
+        print(f'Error while scraping: {e}')
+        if state is not None:  return False
