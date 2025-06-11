@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from io import StringIO
 from tqdm import tqdm
-
+import time 
 
 class BaseScraper:
     def __init__(self, name, url):
@@ -107,7 +107,7 @@ class AWS(BaseScraper):
 
     def scraper(self):
         driver = self._init_driver()
-        certif_urls = self._certifs_urls()
+        certif_urls = self._certifs_urls(driver)
         aws_certifs = pd.DataFrame()
         for url in tqdm(certif_urls):
             certif_data = self._certif_data(url, driver)
@@ -115,48 +115,70 @@ class AWS(BaseScraper):
         self.data = aws_certifs
         driver.quit()
 
-    def _certifs_urls(self):
+    def _certifs_urls(self, driver):
+        
         try:
-            response = rq.get(self.url)
-        except rq.exceptions.RequestException:
-            print("An Error Has Occured While Requesting AWS.")
-            return []
+            driver.get(self.url)
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'a[data-rg-n="Link"]')))
+        except TimeoutException as e:
+            print(f"Driver Was Enable To Get AWS URL, Error: ", str(e))
 
-        bs = BeautifulSoup(response.text, 'html.parser')
-        certifs_fig = bs.find_all('figure', {'class': 'lb-img'})
-
+        bs = BeautifulSoup(driver.page_source, 'lxml')
+        certifs_fig = bs.find_all('a', {'data-rg-n': 'Link'})
         certif_urls = []  # certifs names are in images thus I can't use a dictionary as in comptia_scraper.
         for fig in certifs_fig:
-            certif_url = fig.a['href']
-            certif_urls.append('https://aws.amazon.com' + certif_url)
+            certif_url = fig['href']
+            if certif_url.startswith('/certification/certified-'): #to exclude other links that are not certifications.
+                certif_url = 'https://aws.amazon.com' + certif_url
+                certif_urls.append(certif_url)
+        print(certif_urls)
         return certif_urls
 
     def _certif_data(self, certif_url, driver):
         try:
             driver.get(certif_url)
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
         except Exception as e:
             print(f'Driver Was Enable To Get The URL {certif_url}, Error: ', str(e))
-        try:
-            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'footer')))
+        
+        #for the new layout
+        try: WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'button[role="button"]')))
         except TimeoutException:
             pass
-        bs = BeautifulSoup(driver.page_source, 'html.parser')
-        certif_name = bs.find('h1').text
+        #for the old layout that contains a table.
+        try: WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.TAG_NAME, 'table')))
+        except TimeoutException:
+            pass            
+
+        bs = BeautifulSoup(driver.page_source, 'lxml')
+
         table = bs.find('table')
-        if not table: pd.Series({'Certification': certif_name})
+        show_more_button = bs.find('button', {'role': 'button', 'type': 'button'})
+        print("button?  : ", show_more_button)
 
-        try:
-            df = pd.read_html(StringIO(str(table)))[0]
-        except ValueError:
-            return pd.Series({'Certification': certif_name})
+        if table: #So if they return to the layout that contains a table, it will still work.
+            certif_name = bs.find('h1').text
+            try:
+                df = pd.read_html(StringIO(str(table)))[0]
+            except ValueError:
+                return pd.Series({'Certification': certif_name})
 
-        if df.shape[1] >= 2:
-            df.columns = ['Field', 'Value']
-            certif_data = pd.Series(data=df['Value'].values, index=df['Field'].values, name=certif_name)
-            certif_data = pd.concat([pd.Series({'Certification' : certif_name, 'Official Link' : certif_url}), certif_data])
-        else:
-            return pd.Series({'Certification': certif_name})
-        return certif_data
+            if df.shape[1] >= 2:
+                df.columns = ['Field', 'Value']
+                certif_data = pd.Series(data=df['Value'].values, index=df['Field'].values, name=certif_name)
+                certif_data = pd.concat([pd.Series({'Certification' : certif_name, 'Official Link' : certif_url}), certif_data])
+            else:
+                return pd.Series({'Certification': certif_name})
+            return certif_data
+        
+        elif show_more_button: #the new layout
+            show_more_button.click()
+
+            certif_name = bs.find('h1', {'data-rg-n': 'HeadingText'}).text
+            details = driver.find_element(By.XPATH, '//*[@id="Exam-overview"]/div/div[3]/div[1]/div[2]')
+
 
 
 
@@ -342,3 +364,7 @@ class Microsoft(BaseScraper):
 
         return pd.Series(data=[certif_description, certif_languages, certif_prerequisites, certif_price, exam_duration],
                          index=['Description', 'Languages', 'Requirements', 'Price', 'Exam Duration']).to_frame().T
+
+
+site = AWS()
+site.scraper()
