@@ -24,6 +24,6 @@ Please consider adapting different paths used in the project to your case.
 Run the treamlit UI that will guide you throughout the pipeline steps. Orcrun each step independently from the run_step.py file (e.g. run_scraping.py to run scraping), as classes are built to be both compatible with the UI and runnable independently.
 
 # Note:
-Web scraping classes are HTML-structure sensitive, so any changing in the structure of the website could damage or totally break the scraper.
-In this case, consider debugging the class to find and replace the tag(s) and/or attribute(s) that have been changed.
+Web scraping classes are HTML-structure sensitive, and the other classes depend on the scraping one, so any changes in the structure of a website could damage or totally break the scraper, hence the rest of the pipeline.
+In this case, consider debugging the class to find and replace the tag(s) and/or attribute(s) that have been changed, and also the other classes if needed. Also consider opening an issue in the GitHub repository to notify me of the change, so that it can be fixed in the next release.
 
