@@ -121,18 +121,19 @@ class AWS(BaseScraper):     #STILL TRYING TO FIGURE OUT HOW TO GET THE DATA FROM
             driver.get(self.url)
             WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'a[data-rg-n="Link"]')))
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(2)
         except TimeoutException as e:
             print(f"Driver Was Enable To Get AWS URL, Error: ", str(e))
 
         bs = BeautifulSoup(driver.page_source, 'lxml')
         certifs_fig = bs.find_all('a', {'data-rg-n': 'Link'})
-        print(certifs_fig)
         certif_urls = []  # certifs names are in images thus I can't use a dictionary as in comptia_scraper.
         for fig in certifs_fig:
             certif_url = fig['href']
             if certif_url.startswith('/certification/certified-'): #to exclude other links that are not certifications.
                 certif_url = 'https://aws.amazon.com' + certif_url
                 certif_urls.append(certif_url)
+        print(certif_urls)
         return certif_urls
 
     def _certif_data(self, certif_url, driver):
