@@ -1,5 +1,5 @@
-# IT Certifications Pipeline
-
+# IT Certifications Pipeline (I dislinked the scraping class from the pipeline, it's showing the old scraped data when hitting scrape, untill I fix the AWS scraper)
+ 
 This project scrapes, cleans, ml enforces, and plots metadata of IT certifications from providers: AWS, Microsoft, and CompTIA.
 
 ## 📌 Features
