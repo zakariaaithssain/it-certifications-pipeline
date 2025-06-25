@@ -119,21 +119,20 @@ class AWS(BaseScraper):     #STILL TRYING TO FIGURE OUT HOW TO GET THE DATA FROM
         
         try:
             driver.get(self.url)
-            WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'a[data-rg-n="Link"]')))
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(2)
+            WebDriverWait(driver, 10).until(EC.visibility_of_all_elements_located((By.XPATH, '//*[@id="amsinteractive-card-verticalpattern-data"]/div[2]/div/div/div/div[1]/div/a')))
+            certifs_fig = driver.find_elements(By.XPATH, '//*[@id="amsinteractive-card-verticalpattern-data"]/div[2]/div/div/div/div[2]/div/a')
+
         except TimeoutException as e:
             print(f"Driver Was Enable To Get AWS URL, Error: ", str(e))
 
-        bs = BeautifulSoup(driver.page_source, 'lxml')
-        certifs_fig = bs.find_all('a', {'data-rg-n': 'Link'})
+        certifs_fig = driver.find_elements(By.XPATH, '//*[@id="amsinteractive-card-verticalpattern-data"]/div[2]/div/div/div/div[2]/div/a')
+        print(len(certifs_fig))
         certif_urls = []  # certifs names are in images thus I can't use a dictionary as in comptia_scraper.
         for fig in certifs_fig:
-            certif_url = fig['href']
-            if certif_url.startswith('/certification/certified-'): #to exclude other links that are not certifications.
-                certif_url = 'https://aws.amazon.com' + certif_url
-                certif_urls.append(certif_url)
-        print(certif_urls)
+            certif_url = fig.get_attribute("href")
+            print(certif_url)
+            certif_url = 'https://aws.amazon.com' + certif_url
         return certif_urls
 
     def _certif_data(self, certif_url, driver):
