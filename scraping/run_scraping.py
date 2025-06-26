@@ -1,4 +1,4 @@
-from scraping.scrapers import CompTIA, AWS, Microsoft
+from scrapers import CompTIA, AWS, Microsoft
 def run_scraping(state = None, progress = None):  #those are streamlit interface related arguments
     try:
         sites = [CompTIA(), AWS(), Microsoft()]
@@ -14,3 +14,4 @@ def run_scraping(state = None, progress = None):  #those are streamlit interface
     except Exception as e:
         print(f'Error while scraping: {e}')
         if state is not None:  return False
+
