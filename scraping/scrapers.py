@@ -9,8 +9,9 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from io import StringIO
 from tqdm import tqdm
-import time 
 
+
+#I adapted the AWS scraper after they changed the layout. Now CompTIA changed the layout too.
 class BaseScraper:
     def __init__(self, name, url):
         self.name = name
@@ -45,7 +46,9 @@ class CompTIA(BaseScraper):
 
     def scraper(self):
         comptia_certifs = pd.DataFrame()
-        for certif_name, certif_url in tqdm(self._certifs_urls().items()):
+        certif_urls = self._certifs_urls().items()
+        print(len(certif_urls))
+        for certif_name, certif_url in tqdm(certif_urls):
             certif_data = self._certif_data(certif_name, certif_url)
             comptia_certifs = pd.concat([comptia_certifs, certif_data.to_frame().T], ignore_index=True)
         self.data = comptia_certifs
@@ -120,19 +123,17 @@ class AWS(BaseScraper):     #STILL TRYING TO FIGURE OUT HOW TO GET THE DATA FROM
         try:
             driver.get(self.url)
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            WebDriverWait(driver, 10).until(EC.visibility_of_all_elements_located((By.XPATH, '//*[@id="amsinteractive-card-verticalpattern-data"]/div[2]/div/div/div/div[1]/div/a')))
-            certifs_fig = driver.find_elements(By.XPATH, '//*[@id="amsinteractive-card-verticalpattern-data"]/div[2]/div/div/div/div[2]/div/a')
+            WebDriverWait(driver, 10).until(EC.visibility_of_all_elements_located((By.XPATH, '//*[@id="amsinteractive-card-verticalpattern-data"]/div/div/div/div/div/div/a')))
 
         except TimeoutException as e:
             print(f"Driver Was Enable To Get AWS URL, Error: ", str(e))
 
-        certifs_fig = driver.find_elements(By.XPATH, '//*[@id="amsinteractive-card-verticalpattern-data"]/div[2]/div/div/div/div[2]/div/a')
-        print(len(certifs_fig))
+        certifs_fig = driver.find_elements(By.XPATH, '//*[@id="amsinteractive-card-verticalpattern-data"]/div/div/div/div/div/div/a')
+        if len(certifs_fig) < 12: print(f"Warning: The driver seems to not get all the certifications. Certifications found: {len(certifs_fig)}")
         certif_urls = []  # certifs names are in images thus I can't use a dictionary as in comptia_scraper.
         for fig in certifs_fig:
             certif_url = fig.get_attribute("href")
-            print(certif_url)
-            certif_url = 'https://aws.amazon.com' + certif_url
+            certif_urls.append(certif_url)
         return certif_urls
 
     def _certif_data(self, certif_url, driver):
@@ -144,7 +145,7 @@ class AWS(BaseScraper):     #STILL TRYING TO FIGURE OUT HOW TO GET THE DATA FROM
             print(f'Driver Was Enable To Get The URL {certif_url}, Error: ', str(e))
         
         #for the new layout
-        try: WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'button[role="button"]')))
+        try: WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="Exam-overview"]/div/div[3]/div[2]/button')))
         except TimeoutException:
             pass
         #for the old layout that contains a table.
@@ -155,8 +156,10 @@ class AWS(BaseScraper):     #STILL TRYING TO FIGURE OUT HOW TO GET THE DATA FROM
         bs = BeautifulSoup(driver.page_source, 'lxml')
 
         table = bs.find('table')
-        show_more_button = bs.find('button', {'role': 'button', 'type': 'button'})
-        if table: #So if they return to the layout that contains a table, it will still work.
+        show_more_button = driver.find_element(By.XPATH, '//*[@id="Exam-overview"]/div/div[3]/div[2]/button')
+
+        #for the old layout
+        if table: 
             certif_name = bs.find('h1').text
             try:
                 df = pd.read_html(StringIO(str(table)))[0]
@@ -171,12 +174,27 @@ class AWS(BaseScraper):     #STILL TRYING TO FIGURE OUT HOW TO GET THE DATA FROM
                 return pd.Series({'Certification': certif_name})
             return certif_data
         
-        elif show_more_button: #the new layout
-            show_more_button.click()
+        #for the new layout
+        elif show_more_button: 
+            certif_data = {}
+            driver.execute_script("arguments[0].click();", show_more_button)
 
-            certif_name = bs.find('h1', {'data-rg-n': 'HeadingText'}).text
-            details = driver.find_element(By.XPATH, '//*[@id="Exam-overview"]/div/div[3]/div[1]/div[2]')
+            certif_name = bs.find("h1", {"data-rg-n" : "HeadingText"}).text
+            certif_data["Certification"] = certif_name
 
+            certif_description = driver.find_element(By.CSS_SELECTOR, 'div.col_module_col__8176fa0f.col_module_colXs12__8176fa0f.col_module_colS12__8176fa0f.col_module_colM6__8176fa0f.col_module_colL6__8176fa0f.col_module_colXl6__8176fa0f.col_module_colXxl6__8176fa0f.textmediacontent_module_textContainer__a8f07c10 > div.basetext_module_text__34d4534b.bodytext_module_body__cc74e5ca.bodytext_module_size1__cc74e5ca').text
+            certif_data["Description"] = certif_description
+
+            details = driver.find_elements(By.XPATH, '//*[@id="Exam-overview"]/div/div/div/div/div/div')
+            for elt in details:
+                column = elt.find_element(By.TAG_NAME, "h3").text
+                value = elt.find_element(By.TAG_NAME, "p").text
+                certif_data[column] = value
+            
+            return pd.Series(data = certif_data)
+        
+        else: print("Neither the new layout nor the old one is working,\nAWS might have changed the layout again!")
+            
 
 
 
@@ -364,5 +382,3 @@ class Microsoft(BaseScraper):
                          index=['Description', 'Languages', 'Requirements', 'Price', 'Exam Duration']).to_frame().T
 
 
-site = AWS()
-site.scraper()
