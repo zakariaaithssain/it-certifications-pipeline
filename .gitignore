@@ -1,65 +1,7 @@
-# Python-specific files
-*.pyc
-*.pyo
-*.pyd
-__pycache__/
-*.db
-*.sqlite3
-
-# Virtual environment folders
-venv/
-.env/
+.idea/
 .venv/
-.env.bak/
-
-# IDE-specific files (e.g., VSCode, PyCharm)
-.vscode/
-.idea/
-
-# Jupyter notebook checkpoints
-.ipynb_checkpoints/
-
-# Dependency directories
-node_modules/
-bower_components/
-
-# Logs
-*.log
-*.out
-*.err
-
-# OS-specific files
-.DS_Store
-Thumbs.db
-
-# Temporary files
-*.swp
-*.swo
-
-# Coverage directory used by pytest
-.coverage
-
-# Pytest cache
-.cache/
-
-# Pycharm settings
-.idea/
-
-# User-specific files
-*.sublime-workspace
-*.sublime-project
-
-# Python wheel packages
-*.whl
-
-# Distribution files
-*.tar.gz
-*.zip
-*.egg
-*.egg-info/
-
-# PyInstaller files
-*.spec
-
-# Ignore the reports directory
-report/
+__pycache__/
+cleaning/__pycache__/
+analysis/__pycache__/
+pruning/__pycache__/
+scraping/__pycache__/

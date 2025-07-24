@@ -1,4 +1,5 @@
 from scrapers import CompTIA, AWS, Microsoft
+
 def run_scraping(state = None, progress = None):  #those are streamlit interface related arguments
     try:
         sites = [CompTIA(), AWS(), Microsoft()]

@@ -1,11 +1,12 @@
 import streamlit as st
+import matplotlib.pyplot as plt
 import pandas as pd
 import os
+
 from scraping.run_scraping import run_scraping
 from cleaning.run_cleaning import run_cleaning
-from ml.run_predicting import run_predicting
+from pruning.run_predicting import run_predicting
 from analysis.exploratory_data_analysis import EDA
-import matplotlib.pyplot as plt
 
 
 if 'show_raw_data' not in st.session_state: st.session_state.show_raw_data = False
