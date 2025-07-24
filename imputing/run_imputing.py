@@ -1,4 +1,4 @@
-from pruning.predictor import MissingColumnsPredictor
+from imputing.imputer import MissingColumnsPredictor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeClassifier
