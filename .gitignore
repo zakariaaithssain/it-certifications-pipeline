@@ -5,3 +5,4 @@ cleaning/__pycache__/
 analysis/__pycache__/
 pruning/__pycache__/
 scraping/__pycache__/
+.idea/
