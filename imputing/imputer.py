@@ -40,15 +40,16 @@ class MissingColumnsPredictor:
 
 
     def train(self):
-        if self._selected_features is not None:
+        try: 
             self.model.fit(self._selected_features, self.y)
             return self
-        else: print('you should call "get_optimal_features()" first')
+        except Exception: print('you should call "get_optimal_features()" first')
 
 
 
     def predict(self, X):
-        return self.model.predict(X)
+        try: return self.model.predict(X)
+        except Exception: print('you should call "train()" first')
 
 
 
