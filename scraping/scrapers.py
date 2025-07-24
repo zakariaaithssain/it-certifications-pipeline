@@ -4,12 +4,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
-import requests as rq
 from bs4 import BeautifulSoup
-import pandas as pd
 from io import StringIO
 from tqdm import tqdm
 
+import requests as rq
+import pandas as pd
 
 #I adapted the AWS scraper after they changed the layout. Now CompTIA changed the layout too.
 class BaseScraper:

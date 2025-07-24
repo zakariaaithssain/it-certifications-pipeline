@@ -1,7 +1,8 @@
-from ml.predictor import MissingColumnsPredictor
+from pruning.predictor import MissingColumnsPredictor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeClassifier
+
 import pandas as pd
 
 df = pd.read_csv(r"C:\Users\zakar\OneDrive\Bureau\PFA\it_certifications_project\data\post_predictions_data.csv")

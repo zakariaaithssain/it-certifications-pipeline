@@ -1,5 +1,6 @@
-import seaborn as sns
 from tqdm import tqdm
+
+import seaborn as sns
 import streamlit
 # for plots of costs and durations, I excluded unknown values (set to 0) so they don't affect the real results.
 # you should call plt.tight_layout() and plt.show() after calling a method, except for plot_all().

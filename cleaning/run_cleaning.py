@@ -1,6 +1,8 @@
-from cleaning.cleaners import ComptiaCleaner, AWSCleaner, MicrosoftCleaner, FinalDataCleaner
 import pandas as pd
 import time as t
+
+from cleaning.cleaners import ComptiaCleaner, AWSCleaner, MicrosoftCleaner, FinalDataCleaner
+
 def run_cleaning(state=None, progress=None): #those are streamlit interface related arguments
     try:
         cleaners = [ComptiaCleaner(r'C:\Users\zakar\OneDrive\Bureau\PFA\it_certifications_project\data\raw\raw_CompTIA_certifications.json'), AWSCleaner(r'C:\Users\zakar\OneDrive\Bureau\PFA\it_certifications_project\data\raw\raw_AWS_certifications.json'),

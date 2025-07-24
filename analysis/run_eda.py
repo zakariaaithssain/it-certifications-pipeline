@@ -1,5 +1,7 @@
-from exploratory_data_analysis import EDA
 import pandas as pd
+
+from exploratory_data_analysis import EDA
+
 
 data_before_predictions = pd.read_csv(r'../data/pre_predictions_data.csv')
 data_after_predictions = pd.read_csv(r'../data/post_predictions_data.csv')
