@@ -40,7 +40,7 @@ class BaseScraper:
 
 
 
-class CompTIA(BaseScraper):
+class CompTIA(BaseScraper): #this is outdated as they changed the layout
     def __init__(self):
         super().__init__('CompTIA', 'https://www.comptia.org/certifications')
 
@@ -104,7 +104,7 @@ class CompTIA(BaseScraper):
 
 
 
-class AWS(BaseScraper):     #STILL TRYING TO FIGURE OUT HOW TO GET THE DATA FROM THE NEW LAYOUT.
+class AWS(BaseScraper):     
     def __init__(self):
         super().__init__('AWS', 'https://aws.amazon.com/certification/')
 
