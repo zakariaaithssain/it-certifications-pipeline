@@ -5,7 +5,7 @@ import os
 
 from scraping.run_scraping import run_scraping
 from cleaning.run_cleaning import run_cleaning
-from pruning.run_predicting import run_predicting
+from imputing.run_imputing import run_predicting
 from analysis.exploratory_data_analysis import EDA
 
 
