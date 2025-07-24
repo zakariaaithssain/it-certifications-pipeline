@@ -1,4 +1,4 @@
-# IT Certifications Pipeline (CompTIA changed the layout, the scraper is broken. (but still shows the old data))
+# IT Certifications Pipeline (CompTIA changed the layout, the scraper is  a lil broken. (but data is still available))
  
 This project scrapes, cleans, ml enforces, and plots metadata of IT certifications from providers: AWS, Microsoft, and CompTIA.
 
@@ -16,12 +16,12 @@ This project scrapes, cleans, ml enforces, and plots metadata of IT certificatio
 - `data/` - Cleaned, raw, and processed datasets
 - `cleaning/` -Cleaners 
 - `analysis/` - EDA and visualizations
-- `ml/` - machine learning related data enhancement
+- `imputing/` - machine learning based data imputers
 - `a Streamlit UI`
 
 # How to use:
 Please consider adapting different paths used in the project to your case.
-Run the treamlit UI that will guide you throughout the pipeline steps. Orcrun each step independently from the run_step.py file (e.g. run_scraping.py to run scraping), as classes are built to be both compatible with the UI and runnable independently.
+Run the interface.py file from the project root for the UI, or run each step independently from the run_step.py file (e.g. run_scraping.py to run scraping), as classes are built to be both runnable independently and compatible with the UI.
 
 # Note:
 Web scraping classes are HTML-structure sensitive, and the other classes depend on the scraping one, so any changes in the structure of a website could damage or totally break the scraper, hence the rest of the pipeline.
